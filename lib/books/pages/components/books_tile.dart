@@ -33,114 +33,105 @@ class BookTile extends StatelessWidget {
           ),
           margin: const EdgeInsets.all(10),
           width: 200,
+          height: 300,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // image
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Stack(
                 children: [
-                  AspectRatio(
-                    aspectRatio: 1,
-                    child: Stack(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            //image: book.image,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.all(25),
-                          width: double.infinity,
-                          child: Icon(Icons.favorite),
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.bookmark_add,
-                              color: Color.fromARGB(255, 255, 116, 106),
-                              size: 30,
-                            ),
-                            onPressed: () {
-                              var snack;
-                              void closeSnack() {
-                                snack.close();
-                              }
-
-                              Get.closeCurrentSnackbar();
-                              snack = Get.snackbar(
-                                'Livro favoritado!',
-                                book.title,
-                                snackPosition: SnackPosition.BOTTOM,
-                                margin:
-                                    const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                                animationDuration:
-                                    const Duration(milliseconds: 200),
-                                mainButton: TextButton(
-                                  onPressed: () {
-                                    context
-                                        .read<BookList>()
-                                        .removeFromCart(book);
-                                    closeSnack();
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .inversePrimary,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: const Text(
-                                      'Desfazer',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-
-                              addToCart(context);
-                            },
-                          ),
-                        )
-                      ],
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.network(
+                      book.cover,
+                      fit: BoxFit.cover,
+                      width: 200,
+                      height: 300,
                     ),
                   ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.bookmark_add,
+                        color: Color.fromARGB(255, 255, 228, 77),
+                        shadows: [
+                          Shadow(
+                              color: Color.fromARGB(94, 0, 0, 0),
+                              blurRadius: 10.0)
+                        ],
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        var snack;
+                        void closeSnack() {
+                          snack.close();
+                        }
+
+                        Get.closeCurrentSnackbar();
+                        snack = Get.snackbar(
+                          'Livro favoritado!',
+                          book.title,
+                          snackPosition: SnackPosition.BOTTOM,
+                          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                          animationDuration: const Duration(milliseconds: 200),
+                          mainButton: TextButton(
+                            onPressed: () {
+                              context.read<BookList>().removeFromCart(book);
+                              closeSnack();
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Text(
+                                'Desfazer',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+
+                        addToCart(context);
+                      },
+                    ),
+                  )
                 ],
               ),
-
-              // price
-              /*Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '\$${book.price.toStringAsFixed(2)}',
-                    style: const TextStyle(fontSize: 20),
-                  ),
-
-                  // add button
-                ],
-              ),*/
             ],
           ),
         ),
         // name
-        Text(
-          book.title,
-          style: GoogleFonts.josefinSans(
-            color: Theme.of(context).colorScheme.inversePrimary,
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: Text(
+                  book.title,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.josefinSans(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-
         // description
         Text(
           book.author,
           style: GoogleFonts.josefinSans(
-            fontSize: 16,
+            fontSize: 12,
             fontWeight: FontWeight.w300,
           ),
         ),

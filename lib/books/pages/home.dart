@@ -29,7 +29,7 @@ class MyHome extends StatelessWidget {
     );
 
     store.getBooks();
-https://www.gutenberg.org/cache/epub/63606/pg63606.cover.medium.jpg
+
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         drawer: const MyDrawer(),
@@ -137,7 +137,7 @@ https://www.gutenberg.org/cache/epub/63606/pg63606.cover.medium.jpg
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 380,
-              mainAxisExtent: 272,
+              mainAxisExtent: 400,
             ),
             scrollDirection: Axis.vertical,
             padding: const EdgeInsets.all(10),
