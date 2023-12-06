@@ -41,11 +41,15 @@ class BookTile extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: Image.network(
-                      book.cover,
-                      fit: BoxFit.cover,
-                      width: 200,
-                      height: 300,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(12),
+                      onTap: () {},
+                      child: Image.network(
+                        book.cover,
+                        fit: BoxFit.cover,
+                        width: 200,
+                        height: 300,
+                      ),
                     ),
                   ),
                   Align(
@@ -53,7 +57,7 @@ class BookTile extends StatelessWidget {
                     child: IconButton(
                       icon: const Icon(
                         Icons.bookmark_add,
-                        color: Color.fromARGB(255, 255, 228, 77),
+                        color: Color.fromARGB(255, 230, 203, 51),
                         shadows: [
                           Shadow(
                               color: Color.fromARGB(94, 0, 0, 0),
