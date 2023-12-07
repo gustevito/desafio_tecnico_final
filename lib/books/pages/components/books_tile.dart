@@ -80,7 +80,9 @@ class BookTile extends StatelessWidget {
                           animationDuration: const Duration(milliseconds: 200),
                           mainButton: TextButton(
                             onPressed: () {
-                              context.read<BookList>().removeFromFavorites(book);
+                              context
+                                  .read<BookList>()
+                                  .removeFromFavorites(book);
                               closeSnack();
                             },
                             child: Container(
