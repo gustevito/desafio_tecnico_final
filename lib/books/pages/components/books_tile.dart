@@ -17,9 +17,9 @@ class BookTile extends StatelessWidget {
   });
 
   // add to cart
-  void addToCart(BuildContext context) {
+  void addToFavorites(BuildContext context) {
     // dialog box to confirm
-    context.read<BookList>().addToCart(book);
+    context.read<BookList>().addToFavorites(book);
   }
 
   @override
@@ -80,7 +80,7 @@ class BookTile extends StatelessWidget {
                           animationDuration: const Duration(milliseconds: 200),
                           mainButton: TextButton(
                             onPressed: () {
-                              context.read<BookList>().removeFromCart(book);
+                              context.read<BookList>().removeFromFavorites(book);
                               closeSnack();
                             },
                             child: Container(
@@ -101,7 +101,7 @@ class BookTile extends StatelessWidget {
                           ),
                         );
 
-                        addToCart(context);
+                        addToFavorites(context);
                       },
                     ),
                   )

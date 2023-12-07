@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/intropage': (context) => const IntroPage(),
         '/home': (context) => const MyHome(),
-        '/cartpage': (context) => const CartPage(),
+        '/favorites': (context) => const FavoritesPage(),
       },
     );
   }

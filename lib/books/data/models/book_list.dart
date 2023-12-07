@@ -7,20 +7,20 @@ class BookList extends ChangeNotifier {
   final List<BookModel> _booklist = [];
 
   // favoritos
-  final List<BookModel> _cart = [];
+  final List<BookModel> _favorites = [];
   // get livros
   List<BookModel> get booklist => _booklist;
   // get favoritos
-  List<BookModel> get cart => _cart;
+  List<BookModel> get favorites => _favorites;
   // adicionar livro aos favoritos
-  void addToCart(BookModel item) {
-    _cart.add(item);
+  void addToFavorites(BookModel item) {
+    _favorites.add(item);
     notifyListeners();
   }
 
   // remove item from cart
-  void removeFromCart(BookModel item) {
-    _cart.remove(item);
+  void removeFromFavorites(BookModel item) {
+    _favorites.remove(item);
     notifyListeners();
   }
 

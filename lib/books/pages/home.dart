@@ -125,7 +125,7 @@ class MyHome extends StatelessWidget {
                     size: 20,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/cartpage');
+                    Navigator.pushNamed(context, '/favorites');
                   },
                 ),
               ),

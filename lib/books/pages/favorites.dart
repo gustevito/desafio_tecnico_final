@@ -4,31 +4,30 @@ import 'package:desafio_tecnico_final/books/pages/components/button.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../data/http/http_client.dart';
+import '../data/repository/book_repository.dart';
+import 'components/books_tile.dart';
 import 'components/favs_tile.dart';
 import '../data/models/book.dart';
 import '../data/models/book_list.dart';
+import 'stores/book_state.dart';
 
-class CartPage extends StatelessWidget {
-  const CartPage({super.key});
-
-  // remove from cart function
-  void removeItemFromCart(BuildContext context, BookModel book) {
-    context.read<BookList>().removeFromCart(book);
-  }
-
-  void payButton(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => const AlertDialog(
-        content: Text(
-            'It works! Connect this app to your payment backend and you\'re good to go'),
-      ),
-    );
-  }
+class FavoritesPage extends StatelessWidget {
+  const FavoritesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final cart = context.watch<BookList>().cart;
+    List<BookModel> books = [];
+    //context.watch<BookList>().booklist;
+
+    final BookState store = BookState(
+      repository: BookRepository(
+        client: HttpClient(),
+      ),
+    );
+
+    store.getBooks();
+    final cart = context.watch<BookList>().favorites;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -47,65 +46,93 @@ class CartPage extends StatelessWidget {
         children: [
           // cart list
           Expanded(
-            child: ListView.builder(
+            child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 380,
+                  mainAxisExtent: 400,
+                ),
+                scrollDirection: Axis.vertical,
+                padding: const EdgeInsets.all(10),
                 itemCount: cart.length,
                 itemBuilder: (context, index) {
                   // get item in cart
                   final item = cart[index];
 
                   // return as a cart tile
-                  return CartTile(
+                  return BookTileFavorite(
                       title: Text(item.title),
                       subtitle: Text(item.author),
-                      onPressed: () {
-                        var snack;
-                        void closeSnack() {
-                          snack.close();
-                        }
-
-                        int removeIndex = index;
-
-                        BookModel book = item;
-
-                        Get.closeCurrentSnackbar();
-                        snack = Get.snackbar(
-                          'BookModel Removed',
-                          book.title,
-                          snackPosition: SnackPosition.BOTTOM,
-                          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                          animationDuration: const Duration(milliseconds: 200),
-                          mainButton: TextButton(
-                            onPressed: () {
-                              if (removeIndex != -1) {
-                                context.read<BookList>().addToCart(book);
-                                removeIndex = -1;
-                              }
-                              closeSnack();
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inversePrimary,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Text(
-                                'Undo',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-
-                        removeItemFromCart(context, item);
-                      });
+                      book: item,
+                      onPressed: () {});
                 }),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _content(context, books) {
+    return Column(
+      children: [
+        // title
+        Padding(
+          padding: const EdgeInsets.fromLTRB(25, 20, 20, 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // subtitle
+                  Text(
+                    'Livros',
+                    style: GoogleFonts.dmSerifDisplay(
+                      fontSize: 30,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.collections_bookmark,
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/favorites');
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        // books
+        Flexible(
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 380,
+              mainAxisExtent: 400,
+            ),
+            scrollDirection: Axis.vertical,
+            padding: const EdgeInsets.all(10),
+            itemCount: books.length,
+            itemBuilder: ((context, index) {
+              // get each book from the booklist
+              final book = books[index];
+
+              // return UI element
+              return BookTile(book: book);
+            }),
+          ),
+        ),
+      ],
     );
   }
 }
