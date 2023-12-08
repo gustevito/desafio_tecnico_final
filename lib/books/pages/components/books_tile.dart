@@ -21,6 +21,7 @@ class BookTile extends StatelessWidget {
     // dialog box to confirm
     context.read<BookList>().addToFavorites(book);
   }
+  
 
   @override
   Widget build(BuildContext context) {
