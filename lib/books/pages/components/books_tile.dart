@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +22,6 @@ class BookTile extends StatelessWidget {
     // dialog box to confirm
     context.read<BookList>().addToFavorites(book);
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +45,8 @@ class BookTile extends StatelessWidget {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(12),
                       onTap: () {},
-                      child: Image.network(
-                        book.cover,
+                      child: CachedNetworkImage(
+                        imageUrl: book.cover,
                         fit: BoxFit.cover,
                         width: 200,
                         height: 300,
