@@ -41,6 +41,10 @@ dependencies:
   vocsy_epub_viewer: ^2.0.0
   http: ^1.1.2
   cached_network_image: ^3.3.0
+  device_info_plus: ^9.1.1
+  dio: ^5.4.0
+  permission_handler: ^11.1.0
+  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -61,8 +65,7 @@ flutter:
   uses-material-design: true
   assets:
   - assets/logos/
-
-
+  - assets/book/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

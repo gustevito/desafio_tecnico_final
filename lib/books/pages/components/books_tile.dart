@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../data/models/book.dart';
 import '../../data/models/book_list.dart';
+import '../book_view.dart';
 
 class BookTile extends StatelessWidget {
   final BookModel book;
@@ -44,7 +45,17 @@ class BookTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(12),
-                      onTap: () {},
+                      onTap: () {
+                        //Navigator.pushNamed(context, '/book_view');
+                        // Navigator.pushNamed(context, '/book_view');
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                 BookView(book: book)),
+                        );
+                      },
                       child: CachedNetworkImage(
                         imageUrl: book.cover,
                         fit: BoxFit.cover,

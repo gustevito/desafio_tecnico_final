@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -6,8 +5,8 @@ import 'package:get/get.dart';
 
 import 'package:provider/provider.dart';
 
-
 import 'books/data/models/book_list.dart';
+import 'books/pages/book_view.dart';
 import 'books/pages/favorites.dart';
 import 'books/pages/home.dart';
 import 'books/pages/intropage.dart';
