@@ -95,7 +95,7 @@ class MyHome extends StatelessWidget {
       children: [
         // title
         Padding(
-          padding: const EdgeInsets.fromLTRB(25, 20, 20, 5),
+          padding: const EdgeInsets.fromLTRB(25, 10, 20, 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

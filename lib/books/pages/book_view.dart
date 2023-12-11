@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:desafio_tecnico_final/books/pages/home.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +24,35 @@ class _BookViewState extends State<BookView> {
   bool loading = false;
   Dio dio = Dio();
   String filePath = "";
+  bool isLoaded = false;
 
   @override
   void initState() {
     download();
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      if (isLoaded) return;
+      isLoaded = true;
+      VocsyEpub.setConfig(
+        themeColor: Theme.of(context).primaryColor,
+        identifier: "iosBook",
+        scrollDirection: EpubScrollDirection.ALLDIRECTIONS,
+        allowSharing: true,
+        enableTts: true,
+      );
+      // get current locator
+      VocsyEpub.locatorStream.listen((locator) {
+        print('LOCATOR: $locator');
+      });
+      VocsyEpub.open(
+        filePath,
+        lastLocation: EpubLocator.fromJson({
+          "bookId": "2239",
+          "href": "/OEBPS/ch06.xhtml",
+          "created": 1539934158390,
+          "locations": {"cfi": "epubcfi(/0!/4/4[simple_book]/2/2/6)"}
+        }),
+      );
+    });
     super.initState();
   }
 
@@ -59,33 +86,7 @@ class _BookViewState extends State<BookView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ElevatedButton(
-        onPressed: () {
-          VocsyEpub.setConfig(
-            themeColor: Theme.of(context).primaryColor,
-            identifier: "iosBook",
-            scrollDirection: EpubScrollDirection.ALLDIRECTIONS,
-            allowSharing: true,
-            enableTts: true,
-          );
-          // get current locator
-          VocsyEpub.locatorStream.listen((locator) {
-            print('LOCATOR: $locator');
-          });
-          VocsyEpub.open(
-            filePath,
-            lastLocation: EpubLocator.fromJson({
-              "bookId": "2239",
-              "href": "/OEBPS/ch06.xhtml",
-              "created": 1539934158390,
-              "locations": {"cfi": "epubcfi(/0!/4/4[simple_book]/2/2/6)"}
-            }),
-          );
-        },
-        child: Text('Open Assets E-pub'),
-      ),
-    );
+    return MyHome();
   }
 
   startDownload() async {
